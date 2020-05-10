@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from 'react-bootstrap/Card';
 
 function RepoCard({ repo }) {
   const {
@@ -17,65 +18,89 @@ function RepoCard({ repo }) {
   } = repo;
 
   return (
-    <article className="repo">
-      <h1>{name}</h1>
-      <p>{organization}</p>
-      <p>{description}</p>
+    <Card>
+      <Card.Header>
+        <Card.Text>
+          <small className="text-muted">
+            <strong>Score: </strong>
+            {score}
+          </small>
+          <br />
+          <small className="text-muted">
+            <strong>Last Modified: </strong>
+            {new Date(date.lastModified).toDateString()}
+          </small>
+          <br />
+          <small className="text-muted">
+            <strong>Created: </strong>
+            {new Date(date.created).toDateString()}
+          </small>
+        </Card.Text>
+      </Card.Header>
 
-      <dl className="dates">
-        <dt>Date Created</dt>
-        <dd>{date.created}</dd>
+      <Card.Body>
+        <Card.Title className="text-center">
+          <code>{name}</code>
+        </Card.Title>
+        <Card.Subtitle className="text-center">{organization}</Card.Subtitle>
+        <Card.Text>
+          <br />
+          <strong className="text-muted">About</strong>
+          <br />
+          {description}
+        </Card.Text>
 
-        <dt>Last Modified</dt>
-        <dd>{date.lastModified}</dd>
-      </dl>
+        {languages ? (
+          <section>
+            <strong className="text-muted">Languages</strong>
+            <br />
+            <ul>
+              {languages.map((l, i) => (
+                <li key={l + i}>{l}</li>
+              ))}
+            </ul>
+          </section>
+        ) : (
+          ''
+        )}
 
-      <section className="languages">
-        <h2>Languages</h2>
-        <ul>{languages ? languages.map((l, i) => <li key={l + i}>{l}</li>) : null}</ul>
-      </section>
+        {tags ? (
+          <section>
+            <strong className="text-muted">Tags</strong>
+            <br />
+            <ul>
+              {tags.map((t, i) => (
+                <li key={t + i}>{t}</li>
+              ))}
+            </ul>
+          </section>
+        ) : (
+          ''
+        )}
 
-      <section className="tags">
-        <h2>Tags</h2>
-        <ul>{tags ? tags.map((t, i) => <li key={t + i}>{t}</li>) : null}</ul>
-      </section>
+        <Card.Link href={repositoryURL}>Repositoy</Card.Link>
+        {homepageURL ? <Card.Link href={homepageURL}>Homepage</Card.Link> : ''}
+        {agency ? <Card.Link href={agency.website}>{agency.name}</Card.Link> : ''}
+      </Card.Body>
 
-      <section className="project-links">
-        <h2>Links</h2>
-        <ul>
-          {homepageURL ? (
-            <li>
-              <a href={homepageURL}>Homepage</a>
-            </li>
-          ) : null}
-
-          <li>
-            <a href={repositoryURL}>Repositoy</a>
-          </li>
-        </ul>
-      </section>
-
-      <dl className="agency-details">
-        <dt>Agency</dt>
-        <dd>{`${agency.name} (${agency.acronym})`}</dd>
-
-        <dt>Website</dt>
-        <dd>
-          <a href={agency.website}>{agency.website}</a>
-        </dd>
-      </dl>
-
-      <dl className="extras">
-        <dt>VCS</dt>
-        <dd>{vcs}</dd>
-
-        <dt>Score</dt>
-        <dd>{score}</dd>
-
-        <dt>License</dt>
-        <dd>{permissions.licenses ? permissions.licenses[0].name : 'Unknown'}</dd>
-      </dl>
-    </article>
+      <Card.Footer>
+        <Card.Text>
+          <small className="text-muted">
+            <strong>VCS: </strong>
+            {vcs}
+          </small>
+          <br />
+          {permissions.licenses ? (
+            <small className="text-muted">
+              <strong>License: </strong>
+              {permissions.licenses[0].name}
+            </small>
+          ) : (
+            ''
+          )}
+        </Card.Text>
+      </Card.Footer>
+    </Card>
   );
 }
 

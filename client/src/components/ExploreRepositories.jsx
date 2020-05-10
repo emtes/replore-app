@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import CardColumns from 'react-bootstrap/CardColumns';
+import Spinner from 'react-bootstrap/Spinner';
+import Container from 'react-bootstrap/Container';
 import RepoCard from './RepoCard';
 import RepoSearchForm from './RepoSearchForm';
 
 const ReposList = ({ filteredRepos }) => (
-  <ul>
+  <CardColumns>
     {filteredRepos.map((repo, i) => (
-      <li key={repo.name + i}>
-        <RepoCard repo={repo} />
-      </li>
+      <RepoCard key={repo.name + i} repo={repo} />
     ))}
-  </ul>
+  </CardColumns>
 );
 
 function ExploreRepositories() {
@@ -20,7 +21,7 @@ function ExploreRepositories() {
   const [dateSort, setDateSort] = useState('');
 
   const getRepos = async () => {
-    const res = await fetch('/repos');
+    const res = await fetch('/fed-repos');
     if (res.status === 200) {
       const { results } = await res.json();
       setRepos([...results]);
@@ -94,8 +95,16 @@ function ExploreRepositories() {
     }
   }, [dateSort, filteredRepos]);
 
+  function clearSearch() {
+    setKeywords('');
+    setLanguage('');
+    setDateSort('');
+    setFilteredRepos(repos);
+  }
+
   return (
-    <main>
+    <Container>
+      <br />
       <RepoSearchForm
         language={language}
         setLanguage={setLanguage}
@@ -103,30 +112,24 @@ function ExploreRepositories() {
         setKeywords={setKeywords}
         dateSort={dateSort}
         setDateSort={setDateSort}
+        handleClearSearch={clearSearch}
       />
+      <br />
       {repos.length ? (
         <>
-          <button
-            type="button"
-            onClick={() => {
-              setKeywords('');
-              setLanguage('');
-              setDateSort('');
-              setFilteredRepos(repos);
-            }}
-          >
-            Reset Search
-          </button>
           <p>
-            Seeing:
+            <strong>Now Seeing: </strong>
             {filteredRepos.length}
           </p>
           <ReposList filteredRepos={filteredRepos} />
         </>
       ) : (
-        <p>Loading...</p>
+        <>
+          <Spinner animation="border" role="status" />
+          <p>Loading...</p>
+        </>
       )}
-    </main>
+    </Container>
   );
 }
 

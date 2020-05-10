@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
 
 class RepoSearchForm extends Component {
   constructor(props) {
@@ -17,7 +20,7 @@ class RepoSearchForm extends Component {
   }
 
   componentDidMount() {
-    fetch('/languages')
+    fetch('/fed-languages')
       .then((res) => res.json())
       .then((data) => {
         const { results } = data;
@@ -52,60 +55,54 @@ class RepoSearchForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <fieldset>
-          <legend>Narrow Down Your Search</legend>
-          <ul>
-            <li>
-              <label htmlFor="keywords">Keywords </label>
-              <input
-                id="keywords"
-                type="text"
-                onChange={this.handleKeywordChange}
-                value={this.state.keywordsInput}
-                placeholder="spending, transparency, API"
-              />
-            </li>
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Row>
+          <Form.Group as={Col} controlId="searchKeywords">
+            <Form.Label>Keywords</Form.Label>
+            <Form.Control
+              placeholder="spending, github, API"
+              onChange={this.handleKeywordChange}
+              value={this.state.keywordsInput}
+            />
+          </Form.Group>
 
-            <li>
-              <label htmlFor="lang-select">Select a Language </label>
-              {this.state.fetchedLanguages.length ? (
-                <select
-                  id="lang-select"
-                  value={this.state.languageInput}
-                  onChange={this.handleLangChange}
-                >
-                  <option value="">Any</option>
-                  {this.state.fetchedLanguages.map((l, i) => (
-                    <option key={l + i} value={l}>
-                      {l[0].toUpperCase().concat(l.substr(1))}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <p>Loading...</p>
-              )}
-            </li>
+          <Form.Group as={Col} controlId="searchLanguage">
+            <Form.Label>Language</Form.Label>
+            <Form.Control
+              as="select"
+              value={this.state.languageInput}
+              onChange={this.handleLangChange}
+            >
+              <option value="">Any</option>
+              {this.state.fetchedLanguages.map((l, i) => (
+                <option key={l + i} value={l}>
+                  {l[0].toUpperCase().concat(l.substr(1))}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
 
-            <li>
-              <label htmlFor="repo-sort">Sort By </label>
-              <select
-                id="repo-sort"
-                onChange={this.handleDateSortChange}
-                value={this.state.sortInput}
-              >
-                <option value="" />
-                <option value="modified">Last modified</option>
-                <option value="created">Last created</option>
-              </select>
-            </li>
-
-            <li>
-              <input type="submit" value="Search" />
-            </li>
-          </ul>
-        </fieldset>
-      </form>
+          <Form.Group as={Col} controlId="searchDates">
+            <Form.Label>Sort By Dates</Form.Label>
+            <Form.Control
+              as="select"
+              onChange={this.handleDateSortChange}
+              value={this.state.sortInput}
+            >
+              <option value="">None</option>
+              <option value="modified">Last modified</option>
+              <option value="created">Last created</option>
+            </Form.Control>
+          </Form.Group>
+        </Form.Row>
+        <Button variant="primary" type="submit">
+          Search
+        </Button>
+        {' '}
+        <Button variant="secondary" type="submit" onClick={this.props.handleClearSearch}>
+          Clear Search
+        </Button>
+      </Form>
     );
   }
 }
