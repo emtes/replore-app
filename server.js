@@ -30,9 +30,10 @@ app.listen(port, () => console.log(`Listening on port ${port}...`));
  * @returns {Array} Array of objects representing repositories
  * @param {number} size - Amount of repositories to fetch. 300 default.
  */
-async function getFedRepos(size = 300) {
+async function getFedRepos(size = 1000) {
   // arbitrary default, not too many/little. API default = 10, max = 1000
   const { repos } = await codeGovReq('/repos', size);
+
   return repos.map(repo => {
     const {
       date,
@@ -48,23 +49,26 @@ async function getFedRepos(size = 300) {
       agency,
       score
     } = repo;
+    // not incredibly uniform data
     return {
-      date,
-      homepageURL,
-      languages,
-      name,
-      description,
-      organization,
-      permissions,
-      repositoryURL,
-      tags,
-      vcs,
-      agency: {
-        name: agency.name,
-        acronym: agency.acronym,
-        website: agency.website
-      },
-      score
+      date: date || null,
+      homepageURL: homepageURL || null,
+      languages: languages || null,
+      name: name || null,
+      description: description || null,
+      organization: organization || null,
+      permissions: permissions || null,
+      repositoryURL: repositoryURL || null,
+      tags: tags || null,
+      vcs: vcs || null,
+      agency: agency
+        ? {
+            name: agency.name,
+            acronym: agency.acronym,
+            website: agency.website
+          }
+        : null,
+      score: score || null
     };
   });
 }
