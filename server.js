@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.get('/repos', async (req, res) => {
+app.get('/fed-repos', async (req, res) => {
   try {
     const repos = await getFedRepos();
     res.status(200).json({ results: repos });
@@ -14,7 +14,7 @@ app.get('/repos', async (req, res) => {
   }
 });
 
-app.get('/languages', async (req, res) => {
+app.get('/fed-languages', async (req, res) => {
   try {
     const languages = await getFedLangs();
     res.status(200).json({ results: languages });
