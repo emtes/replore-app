@@ -78,7 +78,7 @@ function RepoCard({ repo }) {
           ''
         )}
 
-        <Card.Link href={repositoryURL}>Repositoy</Card.Link>
+        <Card.Link href={repositoryURL}>Repository</Card.Link>
         {homepageURL ? <Card.Link href={homepageURL}>Homepage</Card.Link> : ''}
         {agency ? <Card.Link href={agency.website}>{agency.name}</Card.Link> : ''}
       </Card.Body>
