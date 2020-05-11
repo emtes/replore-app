@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/emtes/unit-8-project.git"
+    "url": "git+https://github.com/emtes/replore-app.git"
   },
   "author": "Enmanuel de la Nuez",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/emtes/unit-8-project/issues"
+    "url": "https://github.com/emtes/replore-app/issues"
   },
-  "homepage": "https://github.com/emtes/unit-8-project#readme",
+  "homepage": "https://github.com/emtes/replore-app#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
