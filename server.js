@@ -1,9 +1,12 @@
 require('dotenv').config();
+const path = require('path');
 const fetch = require('node-fetch');
 const express = require('express');
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 /**
  * Makes an authorized requeset to the specified Code.gov API endpoint
@@ -94,6 +97,10 @@ app.get('/fed-languages', async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: '500 Failed to load resource.', details: e });
   }
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(`${__dirname}/client/build/index.html`));
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}...`));
