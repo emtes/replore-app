@@ -1,5 +1,5 @@
-import React from 'react';
-import Card from 'react-bootstrap/Card';
+import React from "react";
+import Card from "react-bootstrap/Card";
 
 function RepoCard({ repo }) {
   const {
@@ -61,7 +61,7 @@ function RepoCard({ repo }) {
             </ul>
           </section>
         ) : (
-          ''
+          ""
         )}
 
         {tags ? (
@@ -75,12 +75,16 @@ function RepoCard({ repo }) {
             </ul>
           </section>
         ) : (
-          ''
+          ""
         )}
 
         <Card.Link href={repositoryURL}>Repository</Card.Link>
-        {homepageURL ? <Card.Link href={homepageURL}>Homepage</Card.Link> : ''}
-        {agency ? <Card.Link href={agency.website}>{agency.name}</Card.Link> : ''}
+        {homepageURL ? <Card.Link href={homepageURL}>Homepage</Card.Link> : ""}
+        {agency ? (
+          <Card.Link href={agency.website}>{agency.name}</Card.Link>
+        ) : (
+          ""
+        )}
       </Card.Body>
 
       <Card.Footer>
@@ -96,7 +100,7 @@ function RepoCard({ repo }) {
               {permissions.licenses[0].name}
             </small>
           ) : (
-            ''
+            ""
           )}
         </Card.Text>
       </Card.Footer>
