@@ -28,8 +28,7 @@ const codeGovReq = async (endPoint, size) => {
  * @returns {Array} Array of objects representing repositories
  * @param {number} size - Amount of repositories to fetch. 300 default.
  */
-const getFedRepos = async (size = 1000) => {
-  // max = 1000, already takes long enough to load client-side
+const getFedRepos = async (size = 300) => {
   const { repos } = await codeGovReq('/repos', size);
 
   return repos.map((repo) => {
